@@ -1,3 +1,3 @@
 # app-bot
 
-A TF2 bot for [APP](tf2app.com)
+A TF2 bot for [APP](http://tf2app.com)
