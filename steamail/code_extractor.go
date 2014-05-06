@@ -10,10 +10,6 @@ import (
 	"regexp"
 )
 
-type SteamCodeExtractor interface {
-	ExtractCode(msg *mail.Message) (string, error)
-}
-
 type steamCodeExtractor struct{}
 
 func NewSteamCodeExtractor() *steamCodeExtractor {
