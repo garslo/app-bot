@@ -3,25 +3,32 @@ package steamail_test
 import (
 	"bytes"
 	"net/mail"
-	"testing"
+	. "github.com/garslo/app-bot/steamail"
 
-	. "github.com/garslo/steambot/steamail"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-func TestWeCanExtractTheCode(t *testing.T) {
-	extractor := NewSteamCodeExtractor()
-	msg, err := mail.ReadMessage(bytes.NewBufferString(ExampleEmail))
-	if err != nil {
-		t.Errorf("Could not read message: %v", err)
-	}
-	code, err := extractor.ExtractCode(msg)
-	if err != nil {
-		t.Errorf("Could not extract code: %v", err)
-	}
-	if code != "4QJY8" {
-		t.Errorf("Bad code; got '%s', wanted '4QJY8'", code)
-	}
-}
+var _ = Describe("CodeExtractor", func() {
+	var (
+		extractor SteamCodeExtractor
+		email     *mail.Message
+	)
+	code := "4QJY8"
+
+	BeforeEach(func() {
+		var err error
+		extractor = NewSteamCodeExtractor()
+		email, err = mail.ReadMessage(bytes.NewBufferString(ExampleEmail))
+		Expect(err).To(BeNil())
+	})
+
+	It("should extract the response code", func() {
+		obtained, err := extractor.ExtractCode(email)
+		Expect(err).To(BeNil())
+		Expect(obtained).To(Equal(code))
+	})
+})
 
 const ExampleEmail = `Delivered-To: example@gmail.com
 Received: by 10.76.173.7 with SMTP id bg7csp103220oac;
