@@ -38,6 +38,11 @@ func NewSteamCodeGetter2(
 	}
 }
 
+func NewGmailSteamCodeGetter(username, password string) SteamCodeGetter {
+	fetcher := email.NewGmailFetcher(username, password)
+	return NewSteamCodeGetter(fetcher)
+}
+
 func (g *steamCodeGetter) GetSteamCode() (string, error) {
 	log.Println("Fetching login code")
 	for i := 0; i < g.numRetries; i++ {
