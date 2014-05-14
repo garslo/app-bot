@@ -20,6 +20,8 @@ type eventProxy struct {
 	TradeSessionStartEventChan chan *steam.TradeSessionStartEvent
 	WebLoggedOnEventChan       chan *steam.WebLoggedOnEvent
 	WebSessionIdEventChan      chan *steam.WebSessionIdEvent
+	FatalErrorChan             chan *steam.FatalError
+	ErrorChan                  chan error
 }
 
 func NewEventProxy(eventChan <-chan interface{}) EventProxy {
@@ -191,4 +193,18 @@ func (p *eventProxy) GetWebSessionIdEventChan() chan *steam.WebSessionIdEvent {
 		p.WebSessionIdEventChan = make(chan *steam.WebSessionIdEvent)
 	}
 	return p.WebSessionIdEventChan
+}
+
+func (p *eventProxy) GetFatalErrorChan() chan *steam.FatalError {
+	if p.FatalErrorChan == nil {
+		p.FatalErrorChan = make(chan *steam.FatalError)
+	}
+	return p.FatalErrorChan
+}
+
+func (p *eventProxy) GetErrorChan() chan error {
+	if p.ErrorChan == nil {
+		p.ErrorChan = make(chan error)
+	}
+	return p.ErrorChan
 }

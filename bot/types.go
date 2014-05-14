@@ -1,11 +1,16 @@
 package bot
 
-import "github.com/Philipp15b/go-steam"
+import (
+	"time"
+
+	"github.com/Philipp15b/go-steam"
+)
 
 type BotConfig struct {
-	SentryFile string
-	Username   string
-	Password   string
+	SentryFile         string
+	Username           string
+	Password           string
+	LoginRetryInterval time.Duration
 }
 
 type Bot interface {
@@ -26,4 +31,6 @@ type EventProxy interface {
 	GetTradeSessionStartEventChan() chan *steam.TradeSessionStartEvent
 	GetWebLoggedOnEventChan() chan *steam.WebLoggedOnEvent
 	GetWebSessionIdEventChan() chan *steam.WebSessionIdEvent
+	GetFatalErrorChan() chan *steam.FatalError
+	GetErrorChan() chan error
 }
